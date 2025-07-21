@@ -4,4 +4,15 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>ParadisisNostalga</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="GodotSharp">
+      <HintPath>g:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\bin\Debug\GodotSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Godot.NET.Sdk" Version="4.4.0" />
+  </ItemGroup>
 </Project>

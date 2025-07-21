@@ -50,6 +50,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Godot.NET.Sdk": {
+              "target": "Package",
+              "version": "[4.4.0, )"
+            },
             "Godot.SourceGenerators": {
               "target": "Package",
               "version": "[4.4.0, )"

@@ -2,6 +2,9 @@
   "version": 3,
   "targets": {
     "net8.0": {
+      "Godot.NET.Sdk/4.4.0": {
+        "type": "package"
+      },
       "Godot.SourceGenerators/4.4.0": {
         "type": "package",
         "build": {
@@ -40,6 +43,23 @@
     }
   },
   "libraries": {
+    "Godot.NET.Sdk/4.4.0": {
+      "sha512": "RD3cCciIDD8DoHm+YOfZtZMhVjWZz/7UAxXtdcQwRtIPFTC8l3lC8gFBXalEoo5hxcY6S7KIOcz7ia+MjGQIqw==",
+      "type": "package",
+      "path": "godot.net.sdk/4.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Sdk/Android.props",
+        "Sdk/Sdk.props",
+        "Sdk/Sdk.targets",
+        "Sdk/SdkPackageVersions.props",
+        "Sdk/iOSNativeAOT.props",
+        "Sdk/iOSNativeAOT.targets",
+        "godot.net.sdk.4.4.0.nupkg.sha512",
+        "godot.net.sdk.nuspec"
+      ]
+    },
     "Godot.SourceGenerators/4.4.0": {
       "sha512": "eoC+ccuHNDvOqb+8AKsAAOhVYfk+/zZwUhTYazMOfZoHdQnx8eWI6iHECBPVwxtR9sSsp68ovLoJAIv4xYOKpA==",
       "type": "package",
@@ -82,6 +102,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Godot.NET.Sdk >= 4.4.0",
       "Godot.SourceGenerators >= 4.4.0",
       "GodotSharp >= 4.4.0",
       "GodotSharpEditor >= 4.4.0"
@@ -137,6 +158,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "Godot.NET.Sdk": {
+            "target": "Package",
+            "version": "[4.4.0, )"
+          },
           "Godot.SourceGenerators": {
             "target": "Package",
             "version": "[4.4.0, )"

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using ParadisisNostalga.Wheel;
 using Engine.States;
+using static ParadisisNostalga.Wheel.Composition;
 
 public partial class Player : CharacterBody2D,
     ParadisisNostalga.Wheel.IHasHotbar,
@@ -28,7 +29,7 @@ public partial class Player : CharacterBody2D,
     // Reference to the player's composition (default to Emilia)
     public ParadisisNostalga.Wheel.Composition.CompositionData Composition { get; private set; }
     // Reference to the Belligerant wrapper for state/input system
-    public ParadisisNostalga.Wheel.Belligerant BelligerantRef { get; private set; }
+    public ParadisisNostalga.Wheel.Belligerant Emmmii { get; private set; }
     // Unique ScriptKey for this player (for Theatre and SaveManager)
     public string ScriptKey { get; private set; }
 
@@ -56,36 +57,55 @@ public partial class Player : CharacterBody2D,
     public override void _Ready()
     {
         Instance = this;
-        ScriptKey = "Player_Emilia";
+        ScriptKey = "Player";
         Composition = ParadisisNostalga.Wheel.Composition.BaseCompositions[ParadisisNostalga.Wheel.Composition.CompositionType.Emilia];
-        BelligerantRef = new ParadisisNostalga.Wheel.Belligerant(ScriptKey, this, Composition);
+        Emmmii = new ParadisisNostalga.Wheel.Belligerant(ScriptKey, this, Composition);
+        // Add Emmmii (the Belligerant) as a child of the Player node so it is in the scene tree
+        AddChild(Emmmii);
         var theatre = new ParadisisNostalga.Wheel.Theatre();
-        theatre.AssignActorId(BelligerantRef);
-        theatre.SetActorBehaviour(BelligerantRef, ParadisisNostalga.Wheel.Theatre.ActorBehaviourType.Player);
+        theatre.AssignActorId(Emmmii);
+        theatre.SetActorBehaviour(Emmmii, ParadisisNostalga.Wheel.Theatre.ActorBehaviourType.Player);
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        switch (currentState)
+        // Basic player input handling
+        bool moveRight = Input.IsActionPressed("ui_right") || Input.IsKeyPressed(Key.D);
+        bool moveLeft = Input.IsActionPressed("ui_left") || Input.IsKeyPressed(Key.A);
+        bool jump = Input.IsActionPressed("ui_accept") || Input.IsActionPressed("ui_jump");
+        bool attack = Input.IsActionPressed("ui_attack");
+
+        // Feed input to the Belligerant's States system
+        if (Emmmii != null && Emmmii.StatesManager != null)
         {
-            case PlayerState.Idle:
-                HandleIdleState();
-                break;
-            case PlayerState.Running:
-                HandleRunningState();
-                break;
-            case PlayerState.Jumping:
-                HandleJumpingState();
-                break;
-            case PlayerState.Attacking:
-                HandleAttackingState();
-                break;
+            var output = new Engine.States.StateOutput
+            {
+                WantsToMove = moveRight || moveLeft,
+                WantsToAttack = attack,
+                WantsToJump = jump,
+                // Add more as needed
+            };
+            Engine.States.IStateTable.Table[ScriptKey] = output;
+            Emmmii.StatesManager.FeedInputFromStateTable();
         }
+
+        // Optionally, print for test
+        if (moveRight)
+            GD.Print("Player wants to move right");
+        if (moveLeft)
+            GD.Print("Player wants to move left");
+        if (jump)
+            GD.Print("Player wants to jump");
+        if (attack)
+            GD.Print("Player wants to attack");
+
+        // Update composition type if state changes (example: change archetype on state)
+ 
     }
 
     private void HandleIdleState()
     {
-        // Implement idle state logic here
+        
     }
 
     private void HandleRunningState()

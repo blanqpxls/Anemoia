@@ -1,193 +1,149 @@
-using Godot;
-using System;
-using System.Collections.Generic;
+using Godot; // 1: Import Godot engine for node and math types
+using System; // 2: Import base .NET types
+using System.Collections.Generic; // 3: Import generic collections for dictionaries/lists
 
-namespace Engine.States
+namespace Engine.States // 4: Namespace for all state machine logic
 {
-    // Updated enum with a new Hook state.
+    // Revert the eStates enum to its original location
     public enum eStates
     {
-        Idle,
-        Moving,
-        Attacking,
-        Retired,
-        Air,
-        InAir,
-        gStrike,
-        gDefending,
-        Dash,
-        Climb,
-        GParry,
-        Staggered,
-        GSymphonCool,
-        GStrikeSpecialCool,
-        Hook  // New hook state
-    }
+        Idle,       // Standing still
+        Moving,     // Walking/running
+        Attacking,  // Attacking
+        Retired,    // Dead/retired
+        Air,        // In air (falling/jumping)
+        InAir,      // Jumping (separate from Air for logic split)
+        gStrike,    // Ground attack
+        gDefending, // Ground defend
+        Parry,      // Parry
+        Hook        // Hook
+    };
 
-    // InputCommand struct for all possible input actions
-    public struct InputCommand
-    {
-        public bool MoveLeft;
-        public bool MoveRight;
-        public bool MoveUp;
-        public bool MoveDown;
-        public bool Jump;
-        public bool Attack;
-        public bool Defend;
-        public bool Dash;
-        public bool Climb;
-        public bool Parry;
-        public bool Hook;
-        // Add more as needed
-        public static InputCommand None => new InputCommand();
-    }
-
-    // StateOutput struct for output (expand as needed)
-    public struct StateOutput
-    {
-        public bool WantsToMove;
-        public bool WantsToAttack;
-        public bool WantsToJump;
-        public bool WantsToDefend;
-        public bool WantsToDash;
-        public bool WantsToClimb;
-        public bool WantsToParry;
-        public bool WantsToHook;
-        // Add more as needed
-    }
-
-    // Global state table for all actors
-    public static class IStateTable
-    {
-        public static Dictionary<string, StateOutput> Table = new Dictionary<string, StateOutput>();
-    }
-
-    // The IState interface for all state classes.
-    public interface IState
-    {
-        void Enter();
-        void Update(float delta, InputCommand input);
-        void Exit();
-        void CurrentState();
-        void InAirState();
-    }
-
-    // The main state machine class.
     public partial class States : CharacterBody2D
     {
-        // Unique identifier for this actor
-        public string ScriptKey { get; set; }
-        // The current input for this actor
-        public InputCommand CurrentInput { get; set; } = InputCommand.None;
+        // === CONSTANTS ===
+        public const float DashTime = 0.15f; // 1: Dash duration (seconds)
+        public const float DashSpeed = 240f; // 2: Dash speed
+        public const float Gravity = 900f; // 3: Gravity force per second
+        public const float MaxFall = 160f; // 4: Max normal fall speed
+        public const float FastMaxFall = 240f; // 5: Max fast fall speed
+        public const float RunAccel = 1000f; // 6: Acceleration when running
+        public const float RunReduce = 400f; // 7: Deceleration when stopping
+        public const float AirMult = 0.65f; // 8: Air control multiplier
+        public const float MaxRun = 90f; // 9: Max horizontal run speed
+        public const float JumpSpeed = -105f; // 10: Initial jump velocity (up)
+        public const float JumpHBoost = 40f; // 11: Horizontal boost on jump
+        public const float JumpGraceTime = 0.1f; // 12: Coyote time window
+        public const float VarJumpTime = 0.2f; // 13: Variable jump hold time
+        public const float ClimbMaxStamina = 110f; // 14: Max stamina for climbing
+        public const float ClimbUpCost = 100f / 2.2f; // 15: Stamina/sec climbing up
+        public const float ClimbStillCost = 100f / 10f; // 16: Stamina/sec standing on wall
+        public const float ClimbJumpCost = 110f / 4f; // 17: Stamina for wall jump
+        public const float ClimbUpSpeed = -45f; // 18: Climb up speed
+        public const float ClimbDownSpeed = 80f; // 19: Climb down speed
+        public const float ClimbSlipSpeed = 30f; // 20: Wall slip speed
+        public const float ClimbAccel = 900f; // 21: Climb acceleration
+        public const float DuckFriction = 500f; // 22: Ducking friction
+        public const float DuckCorrectSlide = 50f; // 23: Slide correction speed
+        public const float DuckSuperJumpXMult = 1.25f; // 24: Super jump X multiplier
+        public const float DuckSuperJumpYMult = 0.5f; // 25: Super jump Y multiplier
+        public const float WallSlideStartMax = 20f; // 26: Max speed to start wall slide
+        public const float WallSlideTime = 1.2f; // 27: Wall slide time
+        public const float WallJumpHSpeed = MaxRun + JumpHBoost; // 28: Wall jump horizontal speed
+        public const float WallJumpForceTime = 0.16f; // 29: Wall jump force time
+        public const float WallJumpSpeed = MaxRun + JumpHBoost; // 30: Wall jump speed
+        public const float WallJumpCheckDist = 3f; // 31: Wall check distance
+        public const float WallSlideFriction = 0.5f; // 32: Wall slide friction
+        public const float DuckFrictionMult = 0.5f; // 33: Duck friction multiplier
+        public const float WalkSpeed = 64f; // 34: Walk speed
+        public const float GStrike = 10f; // 35: Gravity strike force
+        public const float HookPullSpeed = 400f; // 36: Hook pull speed
 
-        public float Stamina { get; set; } = 100f;
-        private IState currentState;
-        private Dictionary<eStates, IState> stateMap;
+        // === FIELDS ===
+        private ParadisisNostalga.Wheel.Belligerant parentBelligerant; // 37: Reference to parent Belligerant
+        public string ScriptKey { get; set; } // 38: Unique actor key
+        public InputCommand CurrentInput { get; set; } = InputCommand.None; // 39: Current input command
+        public float Stamina { get; set; } = 100f; // 40: Current stamina
+        private IState currentState; // 41: Current state
+        private Dictionary<eStates, IState> stateMap; // 42: State map
+        public float Speed { get; set; } = 300f; // 43: General speed property
 
-        // Constants for state behavior.
-        public const float Gravity = 9.8f;
-        public const float RunAccel = 10f;
-        public const float AirMult = 0.8f;
-        public const float MaxRun = 100f;
-        public const float DashTime = 0.5f;
-        public const float DashSpeed = 300f;
-        public const float ClimbAccel = 5f;
-        public const float ClimbUpSpeed = -50f;
-        public const float ClimbDownSpeed = 50f;
-        public const float ClimbSlipSpeed = 0.1f;
-
-        public const float GStrike = 10f; // Placeholder for GStrike damage
-
-        // Added a hook-pull speed constant.
-        public const float HookPullSpeed = 400f;
-
-        public float Speed { get; set; } = 300f; // Add default speed for movement
-
-        public override void _Ready()
+        // === MAIN PHYSICS LOOP ===
+        public override void _PhysicsProcess(double delta) // 170: Main update loop
         {
-            stateMap = new Dictionary<eStates, IState>
+            var parentScene = GetParent(); // 171: Get parent
+            bool isEmilia = parentScene != null && parentScene.Name != null && parentScene.Name.ToString().ToLowerInvariant().Contains("emilia"); // 172: Only process if emilia
+            bool validKey = !string.IsNullOrEmpty(ScriptKey); // 173: Only process if ScriptKey is valid
+            if (isEmilia && validKey) // 174: If both true
             {
-                { eStates.Idle, new IdleState(this) },
-                { eStates.Moving, new MovingState(this) },
-                { eStates.Attacking, new AttackingState(this) },
-                { eStates.Retired, new DeadState(this) },
-                { eStates.Air, new AirState(this) },
-                { eStates.gStrike, new GStrike(this) },
-                { eStates.gDefending, new gDefending(this) },
-                { eStates.Dash, new DashState(this) },
-                { eStates.Climb, new ClimbState(this) },
-                { eStates.GParry, new ParryState(this) },
-                { eStates.Staggered, new GStaggered(this) },
-                { eStates.GSymphonCool, new GSymphonCool(this) },
-                { eStates.GStrikeSpecialCool, new GStrikeSpecialCool(this) },
-                // We add a default HookState with a placeholder target.
-                { eStates.Hook, new HookState(this, Vector2.Zero) }
-            };
-
-            currentState = stateMap[eStates.Idle]; // Default to Idle
-            currentState.Enter();
-
-            // Assign a unique ScriptKey here (engine/theatre should set this properly)
-            if (string.IsNullOrEmpty(ScriptKey))
-                ScriptKey = Guid.NewGuid().ToString();
-        }
-
-        // 
-        public void StartHookState(Vector2 hookTarget)
-        {
-            // Create a new instance of HookState with the provided target.
-            stateMap[eStates.Hook] = new HookState(this, hookTarget);
-            ChangeState(eStates.Hook);
-        }
-
-        public void ChangeState(eStates newState)
-        {
-            currentState?.Exit();
-
-            if (stateMap.TryGetValue(newState, out var nextState))
-            {
-                currentState = nextState;
-                currentState.Enter();
-                GD.Print("State changed to: " + newState);
+                FeedInputFromStateTable(); // 175: Update input
+                if (currentState != null) // 176: If state exists
+                {
+                    GD.Print($"[_PhysicsProcess] State: {GetCurrentStateName()} Input: {CurrentInput} Velocity: {Velocity}"); // 177: Debug print
+                    currentState.Update((float)delta, CurrentInput); // 178: Update state
+                    GD.Print($"[_PhysicsProcess] After Update: State: {GetCurrentStateName()} Velocity: {Velocity}"); // 179: Debug print
+                }
+                MoveAndSlide(); // 180: Move character
+                if (parentScene is Node2D parent2D && parent2D != this) // 181: If parent is Node2D
+                {
+                    parent2D.Position = this.Position; // 182: Sync parent position
+                }
             }
             else
             {
-                GD.PrintErr("State not found: " + newState);
+                Velocity = Vector2.Zero; // 183: Freeze movement
+                GD.Print($"[_PhysicsProcess] Skipping state logic: isEmilia={isEmilia} validKey={validKey}"); // 184: Debug print
             }
         }
 
-        // Called by the game loop/engine to update input for this actor
         public void FeedInputFromStateTable()
         {
-            if (!string.IsNullOrEmpty(ScriptKey) && IStateTable.Table.TryGetValue(ScriptKey, out var output))
+            if (IStateTable.Table.TryGetValue(ScriptKey, out var output)) // 154: If AI/remote input
             {
-                // Convert StateOutput to InputCommand (simple mapping for now)
-                CurrentInput = new InputCommand
+                CurrentInput = new InputCommand // 155: Map output to input
                 {
-                    MoveLeft = output.WantsToMove && false, // Example: set logic for direction
-                    MoveRight = output.WantsToMove && true, // Example: set logic for direction
-                    Jump = output.WantsToJump,
-                    Attack = output.WantsToAttack,
-                    Defend = output.WantsToDefend,
-                    Dash = output.WantsToDash,
-                    Climb = output.WantsToClimb,
-                    Parry = output.WantsToParry,
-                    Hook = output.WantsToHook
+                    MoveLeft = output.WantsToWalkLeft, // 156: Walk left
+                    MoveRight = output.WantsToWalkRight, // 157: Walk right
+                    MoveUp = false, // 158: Not mapped
+                    MoveDown = false, // 159: Not mapped
+                    Jump = output.WantsToJump, // 160: Jump
+                    Attack = output.WantsToAttack, // 161: Attack
+                    Defend = output.WantsToDefend, // 162: Defend
+                    Dash = output.WantsToDash, // 163: Dash
+                    Climb = output.WantsToClimb, // 164: Climb
+                    Parry = output.WantsToParry, // 165: Parry
+                    Hook = output.WantsToHook // 166: Hook
                 };
+                GD.Print($"[FeedInputFromStateTable] ScriptKey({ScriptKey}) output: {CurrentInput}"); // 167: Debug print
             }
             else
             {
-                CurrentInput = InputCommand.None;
+                GD.Print("[FeedInputFromStateTable] No input found, using None"); // 169: Debug print
             }
         }
 
-        public override void _PhysicsProcess(double delta)
+        // === GET CURRENT STATE NAME ===
+        public string GetCurrentStateName() // 185: Get current state name
         {
-            // Fallback: If no input is set, use InputCommand.None
-            var input = CurrentInput;
-            currentState?.Update((float)delta, input);
-            MoveAndSlide();
-            Stamina = Math.Min(Stamina + 1 * (float)delta, 100f);
+            if (currentState != null) // 186: If state exists
+                return currentState.GetType().Name; // 187: Return class name
+            return "Unknown"; // 188: If no state
+        }
+
+        // Method to change the current state
+        public void ChangeState(eStates newState)
+        {
+            if (stateMap == null || !stateMap.ContainsKey(newState))
+            {
+                GD.PrintErr($"[ChangeState] State {newState} not found in state map.");
+                return;
+            }
+
+            currentState?.Exit(); // Exit the current state
+            currentState = stateMap[newState]; // Set the new state
+            currentState.Enter(); // Enter the new state
+
+            GD.Print($"[ChangeState] Transitioned to {newState} state.");
         }
     }
 
@@ -196,131 +152,112 @@ namespace Engine.States
     {
         private readonly States owner;
         public IdleState(States owner) { this.owner = owner; }
-        public void Enter() => GD.Print("Entering Idle State");
+        public void Enter() { GD.Print("[IdleState] Entering Idle State"); }
         public void Update(float delta, InputCommand input)
         {
+            GD.Print($"[IdleState.Update] Input: {input} Velocity: {owner.Velocity}");
+            // Apply gravity if not on floor
+            if (!owner.IsOnFloor())
+            {
+                owner.ChangeState(eStates.Air);
+                return;
+            }
+            // Decelerate X velocity to zero (Celeste style)
+            owner.Velocity = new Vector2(
+                Mathf.MoveToward(owner.Velocity.X, 0, States.RunReduce * delta),
+                owner.Velocity.Y
+            );
+            // Handle jump
+            if (input.Jump)
+            {
+                owner.Velocity = new Vector2(owner.Velocity.X, States.JumpSpeed);
+                owner.ChangeState(eStates.InAir);
+                return;
+            }
+            // Handle movement input
             if (input.MoveRight || input.MoveLeft)
                 owner.ChangeState(eStates.Moving);
         }
-        public void Exit() => GD.Print("Exiting Idle State");
-        public void CurrentState() => GD.Print("Current state is IdleState");
-        public void InAirState() => owner.ChangeState(eStates.Air);
+        public void Exit() { GD.Print("[IdleState] Exiting Idle State"); }
+        public void CurrentState() { GD.Print("[IdleState] Current state is IdleState"); }
+        public void InAirState() { owner.ChangeState(eStates.Air); }
     }
 
     public class MovingState : IState
     {
-        private readonly States owner;
-        public MovingState(States owner) { this.owner = owner; }
-        public void Enter() => GD.Print("Entering Moving State");
-        public void Update(float delta, InputCommand input)
+        private readonly States owner; // Reference to the main States controller
+
+        // Constructor: takes the owner as a parameter
+        public MovingState(States owner)
         {
-            if (!input.MoveRight && !input.MoveLeft)
-                owner.ChangeState(eStates.Idle);
-            // Example movement logic
-            if (input.MoveRight)
-                owner.Velocity = new Vector2(owner.Speed, owner.Velocity.Y);
-            else if (input.MoveLeft)
-                owner.Velocity = new Vector2(-owner.Speed, owner.Velocity.Y);
+            this.owner = owner; // Set the owner reference
         }
-        public void Exit() => GD.Print("Exiting Moving State");
-        public void CurrentState() => GD.Print("Current state is MovingState");
-        public void InAirState() => owner.ChangeState(eStates.Air);
-    }
 
-    public class AttackingState : IState
-    {
-        private readonly States owner;
-        public AttackingState(States owner) { this.owner = owner; }
-        public void Enter() => GD.Print("Entering Attacking State");
-        public void Update(float delta, InputCommand input) { /* Attacking logic here */ }
-        public void Exit() => GD.Print("Exiting Attacking State");
-        public void CurrentState() => GD.Print("Current state is AttackingState");
-        public void InAirState() => owner.ChangeState(eStates.Air);
-    }
-
-    public class DeadState : IState
-    {
-        private readonly States owner;
-        public DeadState(States owner) { this.owner = owner; }
+        // Called when entering the Moving state
         public void Enter()
         {
-            GD.Print("Entering Retired State");
-            owner.Velocity = Vector2.Zero;
+            GD.Print("[MovingState] Entering Moving State"); // Debug print
         }
-        public void Update(float delta, InputCommand input) { /* Dead state logic */ }
-        public void Exit() => GD.Print("Exiting Retired State");
-        public void CurrentState() => GD.Print("Current state is DeadState");
-        public void InAirState() => owner.ChangeState(eStates.Air);
-    }
 
-    public class AirState : IState
-    {
-        private readonly States owner;
-        public AirState(States owner) { this.owner = owner; }
-        public void Enter() => GD.Print("Entering Air State");
+        // Called every frame while in the Moving state
         public void Update(float delta, InputCommand input)
         {
-            owner.Velocity = new Vector2(
-                owner.Velocity.X,
-                owner.Velocity.Y + States.Gravity * delta
-            );
-            if (input.MoveRight)
-            {
-                owner.Velocity = new Vector2(
-                    Math.Min(owner.Velocity.X + States.AirMult * States.RunAccel * delta, States.MaxRun),
-                    owner.Velocity.Y
-                );
-            }
-            else if (input.MoveLeft)
-            {
-                owner.Velocity = new Vector2(
-                    Math.Max(owner.Velocity.X - States.AirMult * States.RunAccel * delta, -States.MaxRun),
-                    owner.Velocity.Y
-                );
-            }
-            if (owner.IsOnFloor())
-                owner.ChangeState(eStates.Idle);
-            else if (input.Jump)
-                owner.ChangeState(eStates.InAir);
-        }
-        public void Exit() => GD.Print("Exiting Air State");
-        public void CurrentState() => GD.Print("Current state is AirState");
-        public void InAirState() => GD.Print("Already in InAirState");
-    }
+            GD.Print($"[MovingState.Update] Input: {input} Velocity: {owner.Velocity}"); // Debug print
 
-    public class InAirState : IState
-    {
-        private readonly States owner;
-        public InAirState(States owner) { this.owner = owner; }
-        public void Enter() => GD.Print("Entering In-Air State");
-        public void Update(float delta, InputCommand input)
+            // Apply gravity if not on the floor
+            if (!owner.IsOnFloor())
+            {
+                owner.ChangeState(eStates.Air); // Transition to Air state
+                return;
+            }
+
+            // Handle jump input
+            if (input.Jump)
+            {
+                owner.Velocity = new Vector2(owner.Velocity.X, States.JumpSpeed); // Set jump velocity
+                owner.ChangeState(eStates.InAir); // Transition to InAir state
+                return;
+            }
+
+            // Movement logic (Celeste style)
+            float x = 0; // Initialize horizontal input
+            if (input.MoveRight) x += 1; // Move right
+            if (input.MoveLeft) x -= 1; // Move left
+
+            float target = x * States.MaxRun; // Calculate target velocity
+            float accel = States.RunAccel * delta; // Calculate acceleration
+
+            // Smoothly adjust velocity towards target
+            owner.Velocity = new Vector2(
+                Mathf.MoveToward(owner.Velocity.X, target, accel),
+                owner.Velocity.Y
+            );
+
+            // Transition to Idle state if no horizontal input
+            if (x == 0)
+                owner.ChangeState(eStates.Idle);
+        }
+
+        // Called when exiting the Moving state
+        public void Exit()
         {
-            owner.Velocity = new Vector2(
-                owner.Velocity.X,
-                owner.Velocity.Y + States.Gravity * delta
-            );
-            if (input.MoveRight)
-            {
-                owner.Velocity = new Vector2(
-                    Math.Min(owner.Velocity.X + States.AirMult * States.RunAccel * delta, States.MaxRun),
-                    owner.Velocity.Y
-                );
-            }
-            else if (input.MoveLeft)
-            {
-                owner.Velocity = new Vector2(
-                    Math.Max(owner.Velocity.X - States.AirMult * States.RunAccel * delta, -States.MaxRun),
-                    owner.Velocity.Y
-                );
-            }
-            if (owner.IsOnFloor())
-                owner.ChangeState(eStates.Idle);
+            GD.Print("[MovingState] Exiting Moving State"); // Debug print
         }
-        public void Exit() => GD.Print("Exiting In-Air State");
-        public void CurrentState() => GD.Print("Current state is InAirState");
-        void IState.InAirState() => GD.Print("Already in InAirState");
+
+        // Debug: print current state
+        public void CurrentState()
+        {
+            GD.Print("[MovingState] Current state is MovingState");
+        }
+
+        // Called if the character transitions to an in-air state
+        public void InAirState()
+        {
+            owner.ChangeState(eStates.Air); // Transition to Air state
+        }
     }
 
+    // Landed on floor
     public class GStrike : IState
     {
         private readonly States owner;
@@ -416,60 +353,221 @@ namespace Engine.States
 
     public class GStaggered : IState
     {
-        private readonly States owner;
-        public GStaggered(States owner) { this.owner = owner; }
-        public void Enter() => GD.Print("Entering Staggered State");
-        public void Update(float delta, InputCommand input) { /* Staggered logic */ }
-        public void Exit() => GD.Print("Exiting Staggered State");
-        public void CurrentState() => GD.Print("Current state is Staggered");
-        public void InAirState() { GD.Print("Transitioning to InAirState from GStaggered"); owner.ChangeState(eStates.Air); }
+        private readonly States owner; // Reference to the main States controller
+
+        // Constructor: takes the owner as a parameter
+        public GStaggered(States owner)
+        {
+            this.owner = owner; // Set the owner reference
+        }
+
+        // Called when entering the Staggered state
+        public void Enter()
+        {
+            GD.Print("Entering Staggered State"); // Debug print
+        }
+
+        // Called every frame while in the Staggered state
+        public void Update(float delta, InputCommand input)
+        {
+            // Logic for staggered state (e.g., temporary immobility or recovery)
+            GD.Print("[GStaggered.Update] Staggered logic not yet implemented");
+        }
+
+        // Called when exiting the Staggered state
+        public void Exit()
+        {
+            GD.Print("Exiting Staggered State"); // Debug print
+        }
+
+        // Debug: print current state
+        public void CurrentState()
+        {
+            GD.Print("Current state is GStaggered");
+        }
+
+        // Called if the character transitions to an in-air state
+        public void InAirState()
+        {
+            GD.Print("Transitioning to InAirState from GStaggered");
+            owner.ChangeState(eStates.Air); // Transition to Air state
+        }
     }
 
     public class GSymphonCool : IState
     {
-        private readonly States owner;
-        public GSymphonCool(States owner) { this.owner = owner; }
-        public void Enter() => GD.Print("Entering GSymphon Cooldown State");
-        public void Update(float delta, InputCommand input) { /* Cooldown logic */ }
-        public void Exit() => GD.Print("Exiting GSymphon Cooldown State");
-        public void CurrentState() => GD.Print("Current state is GSymphonCool");
-        public void InAirState() { GD.Print("Transitioning to InAirState from GSymphonCool"); owner.ChangeState(eStates.Air); }
+        private readonly States owner; // Reference to the main States controller
+
+        // Constructor: takes the owner as a parameter
+        public GSymphonCool(States owner)
+        {
+            this.owner = owner; // Set the owner reference
+        }
+
+        // Called when entering the Cooldown state
+        public void Enter()
+        {
+            GD.Print("Entering GSymphon Cooldown State"); // Debug print
+        }
+
+        // Called every frame while in the Cooldown state
+        public void Update(float delta, InputCommand input)
+        {
+            // Logic for cooldown state (e.g., waiting for an ability to recharge)
+            GD.Print("[GSymphonCool.Update] Cooldown logic not yet implemented");
+        }
+
+        // Called when exiting the Cooldown state
+        public void Exit()
+        {
+            GD.Print("Exiting GSymphon Cooldown State"); // Debug print
+        }
+
+        // Debug: print current state
+        public void CurrentState()
+        {
+            GD.Print("Current state is GSymphonCool");
+        }
+
+        // Called if the character transitions to an in-air state
+        public void InAirState()
+        {
+            GD.Print("Transitioning to InAirState from GSymphonCool");
+            owner.ChangeState(eStates.Air); // Transition to Air state
+        }
     }
 
     public class GStrikeSpecialCool : IState
     {
-        private readonly States owner;
-        public GStrikeSpecialCool(States owner) { this.owner = owner; }
-        public void Enter() => GD.Print("Entering GStrike Special Cooldown State");
-        public void Update(float delta, InputCommand input) { /* Cooldown logic */ }
-        public void Exit() => GD.Print("Exiting GStrike Special Cooldown State");
-        public void CurrentState() => GD.Print("Current state is GStrikeSpecialCool");
-        public void InAirState() { GD.Print("Transitioning to InAirState from GStrikeSpecialCool"); owner.ChangeState(eStates.Air); }
-    }
+        private readonly States owner; // Reference to the main States controller
 
-    public class HookState : IState
-    {
-        private readonly States owner;
-        private Vector2 hookTarget;
-        private readonly float pullSpeed = States.HookPullSpeed;
-        public HookState(States owner, Vector2 hookTarget)
+        // Constructor: takes the owner as a parameter
+        public GStrikeSpecialCool(States owner)
         {
-            this.owner = owner;
-            this.hookTarget = hookTarget;
+            this.owner = owner; // Set the owner reference
         }
+
+        // Called when entering the Special Cooldown state
         public void Enter()
         {
-            GD.Print("Entering Hook State");
+            GD.Print("Entering GStrike Special Cooldown State"); // Debug print
         }
+
+        // Called every frame while in the Special Cooldown state
         public void Update(float delta, InputCommand input)
         {
+            // Logic for special cooldown state (e.g., waiting for a powerful ability to recharge)
+            GD.Print("[GStrikeSpecialCool.Update] Special Cooldown logic not yet implemented");
+        }
+
+        // Called when exiting the Special Cooldown state
+        public void Exit()
+        {
+            GD.Print("Exiting GStrike Special Cooldown State"); // Debug print
+        }
+
+        // Debug: print current state
+        public void CurrentState()
+        {
+            GD.Print("Current state is GStrikeSpecialCool");
+        }
+
+        // Called if the character transitions to an in-air state
+        public void InAirState()
+        {
+            GD.Print("Transitioning to InAirState from GStrikeSpecialCool");
+            owner.ChangeState(eStates.Air); // Transition to Air state
+        }
+    }
+
+    // --- HookState: Handles grappling hook movement and transition ---
+    public class HookState : IState
+    {
+        private readonly States owner; // Reference to the main States controller
+        private Vector2 hookTarget;    // The target position to pull towards
+        private readonly float pullSpeed = States.HookPullSpeed; // Pull speed constant
+
+        // Constructor: takes the owner and the hook target position
+        public HookState(States owner, Vector2 hookTarget)
+        {
+            this.owner = owner;           // Set the owner reference
+            this.hookTarget = hookTarget; // Set the target position
+        }
+
+        // Called when entering the Hook state
+        public void Enter()
+        {
+            GD.Print("Entering Hook State"); // Debug print
+        }
+
+        // Called every frame while in the Hook state
+        public void Update(float delta, InputCommand input)
+        {
+            // Calculate direction vector from current position to hook target
             Vector2 direction = (hookTarget - owner.Position).Normalized();
+            // Set velocity towards the hook target at pullSpeed
             owner.Velocity = direction * pullSpeed;
+            // If close enough to the target, transition to Idle state
             if (owner.Position.DistanceTo(hookTarget) < 10f)
                 owner.ChangeState(eStates.Idle);
         }
+
+        // Called when exiting the Hook state
         public void Exit() => GD.Print("Exiting Hook State");
+
+        // Debug: print current state
         public void CurrentState() => GD.Print("Current state is HookState");
+
+        // Called if the character transitions to an in-air state
         public void InAirState() => owner.ChangeState(eStates.Air);
+    }
+
+    // Define the IState interface
+    public interface IState
+    {
+        void Enter(); // Called when entering the state
+        void Update(float delta, InputCommand input); // Called every frame while in the state
+        void Exit(); // Called when exiting the state
+        void CurrentState(); // Debug: print current state
+        void InAirState(); // Transition to in-air state
+    }
+
+    // Define the InputCommand struct
+    public struct InputCommand
+    {
+        public bool MoveLeft; // Move left input
+        public bool MoveRight; // Move right input
+        public bool MoveUp; // Move up input
+        public bool MoveDown; // Move down input
+        public bool Jump; // Jump input
+        public bool Attack; // Attack input
+        public bool Defend; // Defend input
+        public bool Dash; // Dash input
+        public bool Climb; // Climb input
+        public bool Parry; // Parry input
+        public bool Hook; // Hook input
+
+        // Default empty input command
+        public static InputCommand None => new InputCommand();
+    }
+
+    // Define a placeholder static class for IStateTable
+    public static class IStateTable
+    {
+        public static Dictionary<string, StateOutput> Table { get; } = new Dictionary<string, StateOutput>();
+    }
+
+    // Define a placeholder struct for StateOutput
+    public struct StateOutput
+    {
+        public bool WantsToWalkLeft;
+        public bool WantsToWalkRight;
+        public bool WantsToJump;
+        public bool WantsToAttack;
+        public bool WantsToDefend;
+        public bool WantsToDash;
+        public bool WantsToClimb;
+        public bool WantsToParry;
+        public bool WantsToHook;
     }
 }

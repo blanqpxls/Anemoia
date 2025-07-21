@@ -49,3 +49,21 @@ G:\Other computers\Anemoia\gregtech\sisyphean-trials\.godot\mono\temp\bin\Debug\
 G:\Other computers\Anemoia\gregtech\sisyphean-trials\.godot\mono\temp\obj\Debug\Paradisi.79D4DDB2.Up2Date
 G:\Other computers\Anemoia\gregtech\sisyphean-trials\.godot\mono\temp\obj\Debug\Paradisis Nostalga.genruntimeconfig.cache
 G:\Other computers\Anemoia\gregtech\sisyphean-trials\.godot\mono\temp\obj\Debug\ref\Paradisis Nostalga.dll
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\obj\Debug\Paradisis Nostalga.csproj.AssemblyReference.cache
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\obj\Debug\Paradisis Nostalga.GeneratedMSBuildEditorConfig.editorconfig
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\obj\Debug\Paradisis Nostalga.AssemblyInfoInputs.cache
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\obj\Debug\Paradisis Nostalga.AssemblyInfo.cs
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\obj\Debug\Paradisis Nostalga.csproj.CoreCompileInputs.cache
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\obj\Debug\Paradisis Nostalga.sourcelink.json
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\bin\Debug\Paradisis Nostalga.deps.json
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\bin\Debug\Paradisis Nostalga.runtimeconfig.json
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\bin\Debug\Paradisis Nostalga.dll
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\bin\Debug\Paradisis Nostalga.pdb
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\bin\Debug\GodotSharp.dll
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\bin\Debug\GodotSharpEditor.dll
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\obj\Debug\Paradisi.79D4DDB2.Up2Date
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\obj\Debug\Paradisis Nostalga.dll
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\obj\Debug\refint\Paradisis Nostalga.dll
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\obj\Debug\Paradisis Nostalga.pdb
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\obj\Debug\Paradisis Nostalga.genruntimeconfig.cache
+G:\Other computers\Anemoia\Anemoia\main\anemoia\.godot\mono\temp\obj\Debug\ref\Paradisis Nostalga.dll

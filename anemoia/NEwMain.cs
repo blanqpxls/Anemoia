@@ -1,10 +1,15 @@
 using Godot;
 using System;
+using System.Security.Cryptography.X509Certificates;
+using ParadisisNostalga;
+using System.Runtime.CompilerServices;
 
 public partial class NEwMain : Node2D
 {
     private string journalCampaign;
     private bool quitConfig;
+
+    public bool isDevMode = false;
 
     public override void _Ready()
     {
@@ -60,6 +65,14 @@ public partial class NEwMain : Node2D
     private void OnDevTestButtonPressed()
     {
         GD.Print("Dev Test button pressed");
-        GetTree().ChangeSceneToFile("res://DevTestScene.tscn");
+
+        bool isDevMode = true;
+        SaveManager.DevTheatreSave(new TheatreSaveData
+        {
+            TheatreName = "DevTestTheatre",
+        });
+        GetTree().ChangeSceneToFile("res://world.tscn");
+
+        
     }
 }
