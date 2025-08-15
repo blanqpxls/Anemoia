@@ -7,6 +7,7 @@ namespace ParadisisNostalga.Wheel
     using System.Linq; // Add this for FirstOrDefault
     using Godot;
     using Engine.States; // Add this to ensure the correct States class is referenced
+    using System.Runtime.CompilerServices;
 
     public class Actors
     {
@@ -67,6 +68,13 @@ namespace ParadisisNostalga.Wheel
             // Add more as needed (player stats, world state, etc.)
         }
 
+
+        public static void DevTheatreSave(TheatreSaveData data)
+        {
+            bool isDevMode = true;
+            
+        }
+
         public static void SaveTheatre(TheatreSaveData data)
         {
             var json = JsonSerializer.Serialize(data);
@@ -90,6 +98,7 @@ namespace ParadisisNostalga.Wheel
 
         // 2. Save and load using binary serialization
         public static void SaveGame(GameSaveData data, string path = "user://save.dat")
+
         {
             using var file = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Write);
             var bytes = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(data);
@@ -106,7 +115,7 @@ namespace ParadisisNostalga.Wheel
         }
 
         // 3. Gather data from all actors in the scene
-        public static GameSaveData GatherGameData(IEnumerable<Character> actors, string sceneName, float worldTime, Dictionary<string, bool> flags)
+        public static GameSaveData GatherGameData(IEnumerable<Belligerant> actors, string sceneName, float worldTime, Dictionary<string, bool> flags)
         {
             var save = new GameSaveData
             {
@@ -130,7 +139,7 @@ namespace ParadisisNostalga.Wheel
                 var motifModifiers = actor is IHasMotifModifiers mm ? mm.GetMotifModifiers() : new List<string>();
                 save.Actors.Add(new ActorSaveData
                 {
-                    Id = actor.iKey,
+                    Id = actor.aActorKey,
                     ScriptKey = states?.ScriptKey,
                     X = actor.Position.X,
                     Y = actor.Position.Y,
@@ -152,11 +161,11 @@ namespace ParadisisNostalga.Wheel
         }
 
         // 4. Apply loaded data to the game
-        public static void ApplyGameData(GameSaveData save, IEnumerable<Character> actors)
+        public static void ApplyGameData(GameSaveData save, IEnumerable<Belligerant> actors)
         {
             foreach (var actorData in save.Actors)
             {
-                var actor = actors.FirstOrDefault(a => a.iKey == actorData.Id);
+                var actor = actors.FirstOrDefault(a => a.aActorKey == actorData.Id);
                 if (actor == null) continue;
                 actor.Position = new Godot.Vector2(actorData.X, actorData.Y);
                 actor.Health = actorData.Health;
@@ -183,11 +192,11 @@ namespace ParadisisNostalga.Wheel
         }
 
         // 5. Stage loader: loads scene, actors, and positions them
-        public static void LoadStage(GameSaveData save, Node sceneRoot, Func<string, Character> spawnActor)
+        public static void LoadStage(GameSaveData save, Node sceneRoot, Func<string, Belligerant> spawnActor)
         {
             foreach (var actorData in save.Actors)
             {
-                var actor = sceneRoot.GetChildren().OfType<Character>().FirstOrDefault(a => a.iKey == actorData.Id);
+                var actor = sceneRoot.GetChildren().OfType<Belligerant>().FirstOrDefault(a => a.aActorKey == actorData.Id);
                 if (actor == null)
                 {
                     actor = spawnActor(actorData.Composition);

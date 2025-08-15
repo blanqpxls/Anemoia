@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dorf3gbq24cmu"]
 
-[ext_resource type="PackedScene" uid="uid://d34lyiddf8o0j" path="res://charIN.tscn" id="1_852ic"]
+[ext_resource type="PackedScene" uid="uid://xxaoff7gwbrm" path="res://player.tscn" id="1_f3sb7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f3sb7"]
 size = Vector2(1229, 20)
@@ -16,4 +16,4 @@ position = Vector2(-42, 4)
 shape = SubResource("RectangleShape2D_f3sb7")
 one_way_collision = true
 
-[node name="characterIN" parent="." instance=ExtResource("1_852ic")]
+[node name="Player" parent="." instance=ExtResource("1_f3sb7")]

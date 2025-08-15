@@ -1,5 +1,6 @@
-[gd_scene load_steps=46 format=3 uid="uid://xxaoff7gwbrm"]
+[gd_scene load_steps=47 format=3 uid="uid://xxaoff7gwbrm"]
 
+[ext_resource type="Script" uid="uid://d24vgijk2accw" path="res://Wheel/States.cs" id="1_dw050"]
 [ext_resource type="Texture2D" uid="uid://cf5vr3rdkcdr0" path="res://Legacy-Fantasy - High Forest 2.3/Character/Idle/Idle-Sheet.png" id="1_uohqy"]
 [ext_resource type="Texture2D" uid="uid://bvqkoppprkbil" path="res://Legacy-Fantasy - High Forest 2.3/Character/Run/Run-Sheet.png" id="2_c1ij0"]
 [ext_resource type="Texture2D" uid="uid://b1dop62ij8uuy" path="res://Legacy-Fantasy - High Forest 2.3/Character/Jump-End/Jump-End-Sheet.png" id="3_5s4db"]
@@ -293,25 +294,30 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1jxqw"]
-radius = 12.0
-height = 46.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ry2ya"]
+radius = 8.0
+height = 44.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="emilia" type="CharacterBody2D"]
+
+[node name="Belligerant" type="CharacterBody2D" parent="."]
 script = ExtResource("8_dw050")
-metadata/Composition = "Emilia"
-metadata/ActorKey = ""
 
-[node name="Belligerant#AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="States" type="CharacterBody2D" parent="Belligerant"]
+script = ExtResource("1_dw050")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Belligerant"]
 position = Vector2(-33, -41)
 sprite_frames = SubResource("SpriteFrames_q1ej8")
 animation = &"idle"
 autoplay = "idle"
 centered = false
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Belligerant"]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_ry2ya")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("7_dw050")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_1jxqw")
-one_way_collision = true
+[connection signal="animation_finished" from="Belligerant/AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -1,41 +1,35 @@
 6dcd580d9bf2a9dbe66cc9f994d3620b
-::res://::1751205254
+::res://::1753075260
 # Code Citations.txt::TextFile/TextFile::-1::1743947932::0::1::::<><><>0<>0<><>::
-AnimatedSprite2d.cs::CSharpScript/CSharpScript::1889727431203392579::1743947948::0::1::::<><><>0<>0<><>::
 button.gd::GDScript/GDScript::1993003514625191098::1743947968::0::1::::<>Button<><>0<>0<><>::
-CampaignSelectionScene.tscn::PackedScene/PackedScene::9184562807277090603::1743947948::0::1::::<><><>0<>0<><>::
-CharacterBody2d.cs::CSharpScript/CSharpScript::6989767935867326429::1743947948::0::1::::<><><>0<>0<><>::
+Camera2d.cs::CSharpScript/CSharpScript::852908750399993153::1752269413::0::1::::<>Camera2D<><>0<>0<><>::
+CampaignSelectionScene.tscn::PackedScene/PackedScene::9184562807277090603::1752353870::0::1::::<><><>0<>0<><>::
+CharacterBody2.cs::CSharpScript/CSharpScript::4999278884310135883::1752349428::0::1::::<>CharacterBody2D<><>0<>0<><>::
 character_body_2d.gd::GDScript/GDScript::5812275131556316418::1743947968::0::1::::<>CharacterBody2D<><>0<>0<><>::
 character_in_2.tscn::PackedScene/PackedScene::7399896469011975351::1743947968::0::1::::<><><>0<>0<><>::uid://c3s3v6rsxj4ve::::res://oak_woods_v1.0/character/char_blue.png<>uid://16nsgd252umd::::res://AnimatedSprite2d.cs<>uid://dysf6bupq628n::::res://CollisionShape2d.cs
 charIN.tscn::PackedScene/PackedScene::9185127798751608459::1748778052::0::1::::<><><>0<>0<><>::uid://184u4led14u8::::res://States.cs<>uid://d3qrkabxpsybh::::res://Wheel/Engine.cs<>uid://c6l2xww6b3jp4::::res://Wheel/Air.cs<>uid://bxpamo01wqqcj::::res://Wheel/Damage.cs<>uid://epckg8spjcot::::res://Wheel/Fatal.cs<>uid://c5wtgue6cn874::::res://Wheel/Ground.cs<>uid://c274ifb3l72be::::res://Wheel/GGrapple.cs<>uid://dqvb0auxpjsur::::res://Wheel/GStrike.cs<>uid://chmlm7n2i77pm::::res://Wheel/GCords.cs<>uid://d0eect3m6d5qe::::res://Wheel/GStrikeSpecialCool.cs<>uid://b0adobs12xi7n::::res://Wheel/GSymphonCool.cs<>uid://bn5is3fh211lw::::res://Wheel/GDebuffs.cs<>uid://hemsqmcmp1qa::::res://Wheel/GResonance.cs<>uid://cr45qaficuidn::::res://Wheel/GStam.cs<>uid://cejgeyas1w10d::::res://Wheel/GParry.cs<>uid://cvun2vttgk42x::::res://Wheel/GStaggered.cs
-CollisionShape2d.cs::CSharpScript/CSharpScript::8881312126663642419::1743947948::0::1::::<><><>0<>0<><>::
-HerNostalgia.cs::CSharpScript/CSharpScript::2503602902619712803::1743947948::0::1::::<><><>0<>0<><>::
-Hook.cs::CSharpScript/CSharpScript::5596473798154053473::1743947948::0::1::::<><><>0<>0<><>::
+Hook.cs::CSharpScript/CSharpScript::5596473798154053473::1743947948::0::1::::<>Node<><>0<>0<><>::
 icon.svg::CompressedTexture2D/CompressedTexture2D::6842386406278679927::1743947968::1748776072::1::::<><><>0<>0<>abcd956f9503acc7883274911ac4fb6a<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 Illustration3.png::CompressedTexture2D/CompressedTexture2D::3106805397052264417::1743947948::1748776073::1::::<><><>0<>0<>01a223cab9cb4f9703894bafb8bb5f32<>res://.godot/imported/Illustration3.png-c0a744602776690b3c802bbd904ac510.ctex::
 Illustration.png::CompressedTexture2D/CompressedTexture2D::5774550302357326869::1743947948::1748776073::1::::<><><>0<>0<>9f6fd9c2f9ee0bae23bb7b1f629e610f<>res://.godot/imported/Illustration.png-39c237b07306b86769691a656dff3136.ctex::
-InAirState.cs::CSharpScript/CSharpScript::5998244281595070961::1743947948::0::1::::<><><>0<>0<><>::
-IState.cs::CSharpScript/CSharpScript::5795802336121635065::1748812225::0::1::::<><><>0<>0<><>::
-JournalScene.tscn::PackedScene/PackedScene::7961579769394855081::1743947948::0::1::::<><><>0<>0<><>::
+IState.cs::CSharpScript/CSharpScript::401394475363544877::1752346180::0::1::::<><><>0<>0<><>::
+JournalScene.tscn::PackedScene/PackedScene::7961579769394855081::1752353870::0::1::::<><><>0<>0<><>::
 main.gd::GDScript/GDScript::1632609674807799577::1743947968::0::1::::<>Node2D<><>0<>0<><>::
 main.tscn::PackedScene/PackedScene::6598685859815697011::1743947968::0::1::::<><><>0<>0<><>::uid://xi33wkcp3m0h::::res://main.gd
-maine.tscn::PackedScene/PackedScene::5220042893581050798::1743947968::0::1::::<><><>0<>0<><>::
-NEwMain.cs::CSharpScript/CSharpScript::5672949143427973765::1743947953::0::1::::<><><>0<>0<><>::
-node_2d.tscn::PackedScene/PackedScene::6927595864764784074::1743947968::0::1::::<><><>0<>0<><>::
+maine.tscn::PackedScene/PackedScene::5220042893581050798::1752353869::0::1::::<><><>0<>0<><>::
+NEwMain.cs::CSharpScript::5672949143427973765::1752937394::0::1::::<>Node2D<><>0<>0<><>::
+node_2d.tscn::PackedScene/PackedScene::6927595864764784074::1752353871::0::1::::<><><>0<>0<><>::
 n_ew_main.gd::GDScript/GDScript::3583664325512001764::1743947968::0::1::::<>Node2D<><>0<>0<><>::
-n_ew_main.tscn::PackedScene/PackedScene::4895081328039168284::1743947968::0::1::::<><><>0<>0<><>::uid://cm3av47v07a34::::res://NEwMain.cs
+n_ew_main.tscn::PackedScene/PackedScene::4895081328039168284::1752353874::0::1::::<><><>0<>0<><>::uid://cm3av47v07a34::::res://NEwMain.cs
 player.gd::GDScript/GDScript::2432023261178042397::1743947969::0::1::::<>CharacterBody2D<><>0<>0<><>::
-player.tscn::PackedScene/PackedScene::1661849364936379042::1748778052::0::1::::<><><>0<>0<><>::uid://bawdckmmj3iw8::::res://player.gd<>uid://cf5vr3rdkcdr0::::res://Legacy-Fantasy - High Forest 2.3/Character/Idle/Idle-Sheet.png<>uid://bvqkoppprkbil::::res://Legacy-Fantasy - High Forest 2.3/Character/Run/Run-Sheet.png<>uid://b1dop62ij8uuy::::res://Legacy-Fantasy - High Forest 2.3/Character/Jump-End/Jump-End-Sheet.png<>uid://bolynyyobgkop::::res://Legacy-Fantasy - High Forest 2.3/Character/Jump-Start/Jump-Start-Sheet.png<>uid://cilbq1jmxocd0::::res://Legacy-Fantasy - High Forest 2.3/Character/Jumlp-All/Jump-All-Sheet.png
+player.tscn::PackedScene::1661849364936379042::1752937412::0::1::::<><><>0<>0<><>::uid://cf5vr3rdkcdr0::::res://Legacy-Fantasy - High Forest 2.3/Character/Idle/Idle-Sheet.png<>uid://bvqkoppprkbil::::res://Legacy-Fantasy - High Forest 2.3/Character/Run/Run-Sheet.png<>uid://b1dop62ij8uuy::::res://Legacy-Fantasy - High Forest 2.3/Character/Jump-End/Jump-End-Sheet.png<>uid://bolynyyobgkop::::res://Legacy-Fantasy - High Forest 2.3/Character/Jump-Start/Jump-Start-Sheet.png<>uid://cilbq1jmxocd0::::res://Legacy-Fantasy - High Forest 2.3/Character/Jumlp-All/Jump-All-Sheet.png<>uid://mffjutxa1fb2::::res://Camera2d.cs<>uid://ckxbg3r6exsb1::::res://Wheel/Beligerant.cs
 Sprite-0001.aseprite::PackedDataContainer/PackedDataContainer::2545869981784620497::1743947959::1748776113::1::::<><><>0<>0<>e54261c32fe5ea08a211d686df029ce6<>res://.godot/imported/Sprite-0001.aseprite-33024635eddc77b060bd3b86f0f847d3.res::
 Sprite-0001.png::CompressedTexture2D/CompressedTexture2D::7318419101498520283::1743947959::1748776072::1::::<><><>0<>0<>b26f3deb57e54ceac2d8c0cdabd50cf0<>res://.godot/imported/Sprite-0001.png-7647bf9f8b536d839277d4b64aee9852.ctex::
 Sprite-0002.aseprite::PackedDataContainer/PackedDataContainer::212111596879814827::1743947959::1748776114::1::::<><><>0<>0<>31aeb188a3c750bc7cf581ee94828a5a<>res://.godot/imported/Sprite-0002.aseprite-aa78087caed2c076fd048998bb5544ad.res::
 Sprite-0003.png::CompressedTexture2D/CompressedTexture2D::4622892310467617141::1743947959::1748776073::1::::<><><>0<>0<>0253933f01883ffe715493a0b5086d89<>res://.godot/imported/Sprite-0003.png-1f8a734700fecef5758050b12f42e4d6.ctex::
 spritea.png::CompressedTexture2D/CompressedTexture2D::1796019268246045602::1743947969::1748776073::1::::<><><>0<>0<>8f084a8629048457b42609523718957e<>res://.godot/imported/spritea.png-d74e38d2b8869ba92c263b20ceaf2252.ctex::
-States.cs::CSharpScript/CSharpScript::1894832449497949565::1748778051::0::1::::<><><>0<>0<><>::
-StatesTest.cs::CSharpScript/CSharpScript::3318171198939738248::1743947959::0::1::::<><><>0<>0<><>::
-StaticBody2d.cs::CSharpScript/CSharpScript::2045911068988333882::1743947960::0::1::::<><><>0<>0<><>::
-test_level.tscn::PackedScene/PackedScene::8026915360369246657::1743947969::0::1::::<><><>0<>0<><>::uid://cnb6vef35n3ad::::res://Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png<>uid://cqrqnlx2jpsop::::res://Legacy-Fantasy - High Forest 2.3/Background/Background.png<>uid://xxaoff7gwbrm::::res://player.tscn
-world.tscn::PackedScene/PackedScene::8177354188473037836::1743947969::0::1::::<><><>0<>0<><>::uid://d34lyiddf8o0j::::res://charIN.tscn
+test_level.tscn::PackedScene/PackedScene::8026915360369246657::1752353871::0::1::::<><><>0<>0<><>::uid://cnb6vef35n3ad::::res://Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png<>uid://cqrqnlx2jpsop::::res://Legacy-Fantasy - High Forest 2.3/Background/Background.png<>uid://xxaoff7gwbrm::::res://player.tscn
+world.tscn::PackedScene/PackedScene::8177354188473037836::1752353873::0::1::::<><><>0<>0<><>::uid://xxaoff7gwbrm::::res://player.tscn
 ::res://addons/::1743947961
 ::res://addons/AsepriteWizard/::1743947967
 plugin.cfg::TextFile/TextFile::-1::1743947967::0::1::::<><><>0<>0<><>::
@@ -135,9 +129,10 @@ resource_tree.gd::GDScript/GDScript::5505546488480156256::1743947967::0::1::::<>
 resource_tree.tscn::PackedScene/PackedScene::5371907658088870246::1743947967::0::1::::<><><>0<>0<><>::uid://cko6strtqtn1a::::res://addons/AsepriteWizard/interface/shared/tree/resource_tree.gd<>uid://b0e32tpeqkpcq::::res://addons/AsepriteWizard/interface/imports_manager/tree_filter_field.gd
 tree_selection_confirmation_warning.gd::GDScript/GDScript::3242347720576370736::1743947967::0::1::::<>VBoxContainer<><>0<>1<><>::
 tree_selection_confirmation_warning.tscn::PackedScene/PackedScene::1136156742705764826::1743947967::0::1::::<><><>0<>0<><>::uid://bmgu81gq888ie::::res://addons/AsepriteWizard/interface/shared/tree/tree_selection_confirmation_warning.gd
-::res://betastuffimade/::1748778048
+::res://betastuffimade/::1752510975
 chain.png::CompressedTexture2D/CompressedTexture2D::6052661239382601679::1743947968::1748776097::1::::<><><>0<>0<>a719b364e06d01882c99a71e89a2fc53<>res://.godot/imported/chain.png-c0209ea792db778c43c2f2cca2dd7812.ctex::
 clawbeta.png::CompressedTexture2D/CompressedTexture2D::3843149131369858117::1743947968::1748776096::1::::<><><>0<>0<>ed79692aeec60b5d33e2c5b301e00df8<>res://.godot/imported/clawbeta.png-e8b74e87af52dea53af34638562cb6f4.ctex::
+ControlBeta sign.png::CompressedTexture2D/CompressedTexture2D::4728058923255972847::1752510598::1752510975::1::::<><><>0<>0<>bb81acd7dbf74738f6361e610a7f6087<>res://.godot/imported/ControlBeta sign.png-ac7e6910315b450e0c038e3baa99ef99.ctex::
 Illustration.png::CompressedTexture2D/CompressedTexture2D::2397987221284853495::1743947967::1748776096::1::::<><><>0<>0<>3e648ad28936a98ca60ccec900a3ad2d<>res://.godot/imported/Illustration.png-7caf45d6aeedefe99b09df88380d93a0.ctex::
 IllustrationHeathbar.png::CompressedTexture2D/CompressedTexture2D::798949507079430444::1743947967::1748776095::1::::<><><>0<>0<>bd05e2dda95ae1c36b2644fd820ed9aa<>res://.godot/imported/IllustrationHeathbar.png-e1dbf19a440a61f4f01e88dac4ff9129.ctex::
 ::res://Legacy-Fantasy - High Forest 2.3/::1743947953
@@ -321,30 +316,19 @@ Cora - template_55_Up throw.png::CompressedTexture2D/CompressedTexture2D::449476
 Cora - template_56_Down throw.png::CompressedTexture2D/CompressedTexture2D::8176202333579716111::1743947959::1748776073::1::::<><><>0<>0<>a59c78ca2097418abe88e2c00bb3d740<>res://.godot/imported/Cora - template_56_Down throw.png-ad6185d6ece183999e3f412bd272f8fc.ctex::
 Cora - template_57_Match entrance.png::CompressedTexture2D/CompressedTexture2D::7478545312782127542::1743947959::1748776073::1::::<><><>0<>0<>4e762b136c85fdc10dca65c28184821e<>res://.godot/imported/Cora - template_57_Match entrance.png-f6f490660276b7f551561f4b1f95bcfb.ctex::
 Cora - template_58_Victory.png::CompressedTexture2D/CompressedTexture2D::8066724117588610755::1743947959::1748776073::1::::<><><>0<>0<>7dbd9c6438603700c69ae354e465d601<>res://.godot/imported/Cora - template_58_Victory.png-b24fc9c2b23f8f54da0ef6d5e80cb4dc.ctex::
-::res://Wheel/::1751137262
-Air.cs::CSharpScript/CSharpScript::6973085298434716943::1743947960::0::1::::<><><>0<>0<><>::
-Beligerant.cs::CSharpScript/CSharpScript::5522283422196344092::1748812214::0::1::::<><><>0<>0<><>::
-Belligerent.cs::CSharpScript/CSharpScript::2099577482639724847::1748778051::0::1::::<><><>0<>0<><>::
-Damage.cs::CSharpScript/CSharpScript::4031751958363981549::1743947960::0::1::::<><><>0<>0<><>::
-DevTestScene.tscn::PackedScene/PackedScene::855077053525288133::1743947960::0::1::::<><><>0<>0<><>::uid://d34lyiddf8o0j::::res://charIN.tscn
-Engine.cs::CSharpScript/CSharpScript::9158629766435844649::1748812217::0::1::::<><><>0<>0<><>::
-Fatal.cs::CSharpScript/CSharpScript::311860699744493871::1743947960::0::1::::<><><>0<>0<><>::
-GCords.cs::CSharpScript/CSharpScript::5289626824416840362::1743947960::0::1::::<><><>0<>0<><>::
-GDebuffs.cs::CSharpScript/CSharpScript::3361326342574742676::1743947960::0::1::::<><><>0<>0<><>::
-gDefending.cs::CSharpScript/CSharpScript::6600317674986245617::1743947961::0::1::::<><><>0<>0<><>::
-GGrapple.cs::CSharpScript/CSharpScript::6735775578334191618::1743947960::0::1::::<><><>0<>0<><>::
-GParry.cs::CSharpScript/CSharpScript::5072548848270969421::1743947960::0::1::::<><><>0<>0<><>::
-GResonance.cs::CSharpScript/CSharpScript::500341023704733824::1743947960::0::1::::<><><>0<>0<><>::
-Ground.cs::CSharpScript/CSharpScript::6925088382800422473::1743947960::0::1::::<><><>0<>0<><>::
-GStaggered.cs::CSharpScript/CSharpScript::6288933309420829425::1743947960::0::1::::<><><>0<>0<><>::
-GStam.cs::CSharpScript/CSharpScript::6027768754676931987::1743947960::0::1::::<><><>0<>0<><>::
-GStrike.cs::CSharpScript/CSharpScript::8325740875924988825::1743947960::0::1::::<><><>0<>0<><>::
-GStrikeSpecialCool.cs::CSharpScript/CSharpScript::8922488134390208548::1743947960::0::1::::<><><>0<>0<><>::
-GSymphonCool.cs::CSharpScript/CSharpScript::4141349008285024661::1743947960::0::1::::<><><>0<>0<><>::
+::res://Wheel/::1752937390
+Beligerant.cs::CSharpScript::5522283422196344092::1752937386::0::1::::<><><>0<>0<><>::
+Belligerant.cs::CSharpScript/CSharpScript::8086033917011758616::1751750918::0::1::::<><><>0<>0<><>::
+Character.cs::CSharpScript/CSharpScript::7041781705168239398::1751733138::0::1::::<><><>0<>0<><>::
+codebase_line_by_line.md::TextFile/TextFile::-1::1752352794::0::1::::<><><>0<>0<><>::
+Composition.cs::CSharpScript/CSharpScript::244055364502423589::1752509669::0::1::::<><><>0<>0<><>::
+db process.md::TextFile/TextFile::-1::1752352795::0::1::::<><><>0<>0<><>::
+Engine.cs::CSharpScript/CSharpScript::9158629766435844649::1751313359::0::1::::<><><>0<>0<><>::
+GameplayDataStubs.cs::CSharpScript/CSharpScript::4031030367526791119::1751226433::0::1::::<><><>0<>0<><>::
+IActor.cs::CSharpScript/CSharpScript::2733792750210384720::1752511928::0::1::::<><><>0<>0<><>::
 Motifs.cs::CSharpScript/CSharpScript::7008586421373527456::1748778051::0::1::::<><><>0<>0<><>::
-Player.cs::CSharpScript/CSharpScript::7890317700266338770::1748812220::0::1::::<><><>0<>0<><>::
-SaveManager.cs::CSharpScript/CSharpScript::3753881587624435253::1748778804::0::1::::<><><>0<>0<><>::
-States2222222.cs::CSharpScript/CSharpScript::1657804922203705713::1743947960::0::1::::<><><>0<>0<><>::
-States.cs::CSharpScript/CSharpScript::9115513990365914770::1748778051::0::1::::<><><>0<>0<><>::
+Player.cs::CSharpScript/CSharpScript::7890317700266338770::1752346782::0::1::::<>CharacterBody2D<><>0<>0<><>::
+SaveManager.cs::CSharpScript::3753881587624435253::1752937390::0::1::::<><><>0<>0<><>::
+States.cs::CSharpScript/CSharpScript::9115513990365914770::1752509667::0::1::::<>CharacterBody2D<><>0<>0<><>::
 StatesFAGFAGAFG.cs::CSharpScript/CSharpScript::6416058026040996167::1743947961::0::1::::<><><>0<>0<><>::
-Theatre.cs::CSharpScript::4287119136219911043::1751137262::0::1::::<><><>0<>0<><>::
+Theatre.cs::CSharpScript/CSharpScript::4287119136219911043::1752347839::0::1::::<><><>0<>0<><>::
